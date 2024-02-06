@@ -58,6 +58,10 @@ public class MyApplication {
         String surname = sc.next();
         System.out.println("Please enter login:");
         String login = sc.next();
+        while (controller.loginExists(login)){
+            System.out.println("Login already exists!\nPlease enter another login:");
+            login = sc.next();
+        }
         System.out.println("Please enter the password:");
         String password = sc.next();
         System.out.println("Repeat the password:");
