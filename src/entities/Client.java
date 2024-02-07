@@ -8,15 +8,15 @@ public class Client {
     private String password;
     private int balance;
 
-    public Client(String login, String password, String name, String surname, int balance){
+    public Client(String name, String surname, String login, String password, int balance){
         setLogin(login);
         setPassword(password);
         setName(name);
         setSurname(surname);
         setBalance(balance);
     }
-    public Client(int id, String login, String password, String name, String surname, int balance){
-        this(login, password, name, surname, balance);
+    public Client(int id, String name, String surname, String login, String password, int balance){
+        this(name, surname, login, password, balance);
         setId(id);
     }
 

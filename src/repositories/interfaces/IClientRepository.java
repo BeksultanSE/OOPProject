@@ -7,4 +7,7 @@ public interface IClientRepository {
     Client getClientByID(int id);
     Client getClientByLogin(String login);
     List<Client> getAllClients();
+    boolean updateClientAccount(String login, int newBalance);
+    boolean changePassword(String login, String newPassword);
+    boolean deleteClient(String login);
 }

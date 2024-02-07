@@ -19,6 +19,7 @@ public class ClientRepository implements IClientRepository {
             con = db.getConnection();
             String query = "INSERT INTO clients(name, surname, login, password, balance) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(query);
+            //System.out.println(client.getSurname());
             st.setString(1, client.getName());
             st.setString(2, client.getSurname());
             st.setString(3, client.getLogin());
@@ -89,14 +90,15 @@ public class ClientRepository implements IClientRepository {
 
             st.setString(1, login);
 
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                return new Client(rs.getInt("id"),
-                        rs.getString("login"),
-                        rs.getString("password"),
-                        rs.getString("name"),
-                        rs.getString("surname"),
-                        rs.getInt("balance"));
+            ResultSet resultSet = st.executeQuery();
+
+            if (resultSet.next()) {
+                return new Client(resultSet.getInt("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("name"),
+                        resultSet.getString("surname"),
+                        resultSet.getInt("balance"));
             }
             return null;
         } catch (SQLException e) {
@@ -143,6 +145,91 @@ public class ClientRepository implements IClientRepository {
         } catch (ClassNotFoundException e) {
             System.out.println(e);
             return null;
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                System.out.println("sql error: " + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public boolean updateClientAccount(String login, int newBalance) {
+        Connection con = null;
+        try {
+            con = db.getConnection();
+
+            String sql = "UPDATE clients SET balance = ? WHERE login = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setInt(1, newBalance);
+            st.setString(2, login);
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e.getMessage());
+            return false;
+        } catch (ClassNotFoundException e) {
+            System.out.println("Runtime error: " + e);
+            return false;
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                System.out.println("sql error: " + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public boolean changePassword(String login, String newPassword) {
+        Connection con = null;
+        try {
+            con = db.getConnection();
+
+            String sql = "UPDATE clients SET password = ? WHERE login = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setString(1, newPassword);
+            st.setString(2, login);
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e.getMessage());
+            return false;
+        } catch (ClassNotFoundException e) {
+            System.out.println("Runtime error: " + e);
+            return false;
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                System.out.println("sql error: " + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public boolean deleteClient(String login) {
+        Connection con = null;
+        try {
+            con = db.getConnection();
+
+            String sql = "DELETE FROM clients WHERE login = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, login);
+            st.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e.getMessage());
+            return false;
+        } catch (ClassNotFoundException e) {
+            System.out.println("Runtime error: " + e);
+            return false;
         } finally {
             try {
                 if (con != null)
