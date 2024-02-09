@@ -32,8 +32,11 @@ public class MyApplication {
                     roleInterface = new pClient(controller, sc, login);
                 }
                 else if(role == 3){
-                    //undeveloped
-                    System.out.println("undeveloped role");
+                    System.out.println("Enter the secret code:");
+                    String secretCode = sc.nextLine();
+                    if(secretCode.equals("I am an Administrator")){
+                        roleInterface = new pAdmin(controller, sc);
+                    }
                     break;
                 }
                 else {

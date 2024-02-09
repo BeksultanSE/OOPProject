@@ -39,19 +39,17 @@ public class pClient extends pHost{
         }
         return false;
     }
-    boolean confirmation(){
+    protected boolean confirmation(){
         System.out.println("Please enter the password:");
         String password = sc.next();
-        String res = controller.changePassword(login, password, password);
         int counter = 3;
-        while(res.charAt(0) == 'I' && counter > 0) {
+        while(!controller.isPasswordCorrect(login, password) && counter > 0) {
             System.out.println("Incorrect Password!\nPlease enter the correct password:");
             password = sc.next();
-            res = controller.changePassword(login, password, password);
             counter--;
         }
-        if(res.charAt(0) == 'I'){
-            System.out.println(res);
+        if(!controller.isPasswordCorrect(login, password)){
+            System.out.println("Invalid confirmation!");
             return false;
         }
         return true;
@@ -84,15 +82,13 @@ public class pClient extends pHost{
         }
     }
     public void closeAccount(){
-        System.out.println("Please enter the password:");
-        String password = sc.next();
-        String res = controller.closeAccount(login, password);
-        System.out.println(res);
-        while(res.charAt(0) == 'I') {
+        String password = null;
+        String res = null;
+        do {
             System.out.println("Please enter the password:");
             password = sc.next();
             res = controller.closeAccount(login, password);
             System.out.println(res);
-        }
+        }while(res.charAt(0) == 'I');
     }
 }

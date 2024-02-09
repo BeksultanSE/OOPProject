@@ -19,11 +19,11 @@ public class pHost implements pInterface{
         System.out.println("0. Back");
         int option = sc.nextInt();
         if(option == 1){
-            this.makeDeposit();
+            makeDeposit();
             return true;
         }
         else if(option == 2){
-            this.addClientMenu();
+            addClientMenu();
             return true;
         }
         return false;

@@ -21,8 +21,7 @@ public class ClientController {
         return (client == null ? "Client was not found!" : client.toString());
     }
     public boolean loginExists(String login){
-        Client client = repo.getClientByLogin(login);
-        return (client != null);
+        return (!getClientByLogin(login).equals("Client was not found!"));
     }
     public String getClientByLogin(String login){
         Client client = repo.getClientByLogin(login);
@@ -33,7 +32,7 @@ public class ClientController {
         StringBuilder response = new StringBuilder();
         for (Client client : clients){
             response.append(client.toString());
-            response.append('\n');
+            response.append("\n");
         }
         return response.toString();
     }
@@ -47,17 +46,19 @@ public class ClientController {
         else
             return "Failed!\nInsufficient funds!";
     }
-    public String changePassword(String login, String password, String newPassword){
+    public boolean isPasswordCorrect(String login, String password){
         Client client = repo.getClientByLogin(login);
-        if(client.getPassword().equals(password)) {
+        return client.getPassword().equals(password);
+    }
+    public String changePassword(String login, String password, String newPassword){
+        if(isPasswordCorrect(login, password)) {
             boolean changed = repo.changePassword(login, newPassword);
             return (changed ? "Password changed successfully!" : "Password change failed!");
         }
         return "Invalid confirmation!";
     }
     public String closeAccount(String login, String password){
-        Client client = repo.getClientByLogin(login);
-        if(client.getPassword().equals(password)){
+        if(isPasswordCorrect(login, password)){
             boolean deleted = repo.deleteClient(login);
             return (deleted ? "The account was deleted successfully!" : "The account deletion was failed!");
         }
