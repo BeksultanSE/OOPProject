@@ -45,7 +45,7 @@ public class ClientController {
             return (updated ? "Transaction completed successfully!" : "Transaction failed!");
         }
         else
-            return "Transaction failed!";
+            return "Failed!\nInsufficient funds!";
     }
     public String changePassword(String login, String password, String newPassword){
         Client client = repo.getClientByLogin(login);

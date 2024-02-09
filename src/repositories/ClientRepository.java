@@ -19,7 +19,6 @@ public class ClientRepository implements IClientRepository {
             con = db.getConnection();
             String query = "INSERT INTO clients(name, surname, login, password, balance) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(query);
-            //System.out.println(client.getSurname());
             st.setString(1, client.getName());
             st.setString(2, client.getSurname());
             st.setString(3, client.getLogin());
@@ -57,10 +56,10 @@ public class ClientRepository implements IClientRepository {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return new Client(rs.getInt("id"),
-                        rs.getString("login"),
-                        rs.getString("password"),
                         rs.getString("name"),
                         rs.getString("surname"),
+                        rs.getString("login"),
+                        rs.getString("password"),
                         rs.getInt("balance"));
             }
             return null;
@@ -94,10 +93,10 @@ public class ClientRepository implements IClientRepository {
 
             if (resultSet.next()) {
                 return new Client(resultSet.getInt("id"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
                         resultSet.getString("name"),
                         resultSet.getString("surname"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
                         resultSet.getInt("balance"));
             }
             return null;
