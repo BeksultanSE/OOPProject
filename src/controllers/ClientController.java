@@ -62,6 +62,7 @@ public class ClientController {
             boolean deleted = repo.deleteClient(login);
             return (deleted ? "The account was deleted successfully!" : "The account deletion was failed!");
         }
-        return "Invalid confirmation!";
+        else
+            return "Invalid confirmation!";
     }
 }

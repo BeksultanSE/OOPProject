@@ -34,7 +34,7 @@ public class pClient extends pHost{
                 return true;
             } else if (option == 4) {
                 closeAccount();
-                return true;
+                return false;
             }
         }
         return false;

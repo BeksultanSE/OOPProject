@@ -33,11 +33,12 @@ public class MyApplication {
                 }
                 else if(role == 3){
                     System.out.println("Enter the secret code:");
-                    String secretCode = sc.nextLine();
-                    if(secretCode.equals("I am an Administrator")){
+                    String secretCode = sc.next();
+                    if(secretCode.equals("adminadmin")){
                         roleInterface = new pAdmin(controller, sc);
                     }
-                    break;
+                    else
+                        System.out.println("Wrong secret code");
                 }
                 else {
                     System.out.println("Operations finished!");
