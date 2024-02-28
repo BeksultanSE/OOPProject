@@ -6,7 +6,7 @@ import repositories.interfaces.IClientRepository;
 
 public class Main {
     public static void main(String[] args){
-        IDB db = new PostgresDB();
+        IDB db = PostgresDB.getInstance();
         IClientRepository repo = new ClientRepository(db);
         ClientController controller = new ClientController(repo);
         MyApplication app = new MyApplication(controller);

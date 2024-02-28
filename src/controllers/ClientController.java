@@ -1,10 +1,10 @@
 package controllers;
 
 import entities.Client;
+import entities.Transaction;
 import repositories.interfaces.IClientRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ClientController {
     private final IClientRepository repo;
@@ -15,6 +15,7 @@ public class ClientController {
         Client client = new Client(name, surname, login, password, balance);
         boolean created = repo.createClient(client);
         return (created ? "Client added successfully!" : "Client addition was failed!");
+
     }
     public String getClientByID(int id){
         Client client = repo.getClientByID(id);
@@ -36,16 +37,21 @@ public class ClientController {
         }
         return response.toString();
     }
+    public String getTransactionHistory(int clientId){
+
+    }
     public String updateClientAccount(String login, int change){
         Client client = repo.getClientByLogin(login);
         int changedBalance = client.getBalance() + change;
         if(changedBalance >= 0){
-            boolean updated = repo.updateClientAccount(login, changedBalance);
+            Transaction t = new Transaction(client.getId(), (((change < 0) ? "Withdrawal" : "Deposit")), changedBalance);
+            boolean updated = repo.updateClientAccount(login, changedBalance, t);
             return (updated ? "Transaction completed successfully!" : "Transaction failed!");
         }
         else
             return "Failed!\nInsufficient funds!";
     }
+
     public boolean isPasswordCorrect(String login, String password){
         Client client = repo.getClientByLogin(login);
         return client.getPassword().equals(password);
