@@ -28,6 +28,10 @@ public class ClientController {
         Client client = repo.getClientByLogin(login);
         return (client == null ? "Client was not found!" : client.toString());
     }
+    public int getClientIdByLogin(String login){
+        Client client = repo.getClientByLogin(login);
+        return client.getId();
+    }
     public String getAllClients(){
         List<Client> clients = repo.getAllClients();
         StringBuilder response = new StringBuilder();
@@ -38,7 +42,13 @@ public class ClientController {
         return response.toString();
     }
     public String getTransactionHistory(int clientId){
-
+        List<Transaction> transactions = repo.getAllTransactions(clientId);
+        StringBuilder response = new StringBuilder();
+        for (Transaction transaction : transactions){
+            response.append(transaction.toString());
+            response.append("\n");
+        }
+        return response.toString();
     }
     public String updateClientAccount(String login, int change){
         Client client = repo.getClientByLogin(login);

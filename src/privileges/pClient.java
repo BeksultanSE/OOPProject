@@ -1,17 +1,20 @@
 package privileges;
 
 import controllers.ClientController;
+import entities.Client;
 
 import java.util.Scanner;
 
 public class pClient extends pHost{
     private String login;
+    private int clientId;
     public pClient(ClientController controller, Scanner sc){
         super(controller, sc);
     }
     public pClient(ClientController controller, Scanner sc, String login){
         this(controller, sc);
         this.login = login;
+        clientId = controller.getClientIdByLogin(login);
     }
     @Override
     public boolean mainMenu() {
@@ -20,7 +23,8 @@ public class pClient extends pHost{
             System.out.println("1. Make a deposit");
             System.out.println("2. Withdraw funds");
             System.out.println("3. Change the password");
-            System.out.println("4. Close my account");
+            System.out.println("4. Account history");
+            System.out.println("5. Close my account");
             System.out.println("0. Back");
             int option = sc.nextInt();
             if (option == 1) {
@@ -32,12 +36,21 @@ public class pClient extends pHost{
             } else if (option == 3) {
                 changePassword();
                 return true;
-            } else if (option == 4) {
+            }
+            else if (option == 4){
+                getAccountHistory(clientId);
+                return true;
+            }
+            else if (option == 5) {
                 closeAccount();
                 return false;
             }
         }
         return false;
+    }
+    public void getAccountHistory(int clientId){
+        String res = controller.getTransactionHistory(clientId);
+        System.out.println(res);
     }
     protected boolean confirmation(){
         System.out.println("Please enter the password:");

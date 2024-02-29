@@ -42,4 +42,12 @@ public class Transaction {
     public void setTransactionDate(Timestamp transactionDate) {
         this.transactionDate = transactionDate;
     }
+
+    @Override
+    public String toString() {
+        return
+                transactionType + '\'' +
+                " | " + amount +
+                " | " + transactionDate;
+    }
 }
