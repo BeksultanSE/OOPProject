@@ -6,6 +6,8 @@ import repositories.interfaces.IClientRepository;
 
 import java.util.List;
 
+import static java.lang.Math.abs;
+
 public class ClientController {
     private final IClientRepository repo;
     public ClientController(IClientRepository repo){
@@ -54,7 +56,7 @@ public class ClientController {
         Client client = repo.getClientByLogin(login);
         int changedBalance = client.getBalance() + change;
         if(changedBalance >= 0){
-            Transaction t = new Transaction(client.getId(), (((change < 0) ? "Withdrawal" : "Deposit")), changedBalance);
+            Transaction t = new Transaction(client.getId(), (((change < 0) ? "Withdrawal" : "Deposit")), abs(change));
             boolean updated = repo.updateClientAccount(login, changedBalance, t);
             return (updated ? "Transaction completed successfully!" : "Transaction failed!");
         }

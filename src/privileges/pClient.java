@@ -24,8 +24,9 @@ public class pClient extends pHost{
             System.out.println("2. Withdraw funds");
             System.out.println("3. Change the password");
             System.out.println("4. Account history");
-            System.out.println("5. Close my account");
-            System.out.println("0. Back");
+            System.out.println("5. Get balance");
+            System.out.println("6. Close my account");
+            System.out.println("7. Back");
             int option = sc.nextInt();
             if (option == 1) {
                 makeDeposit();
@@ -41,7 +42,11 @@ public class pClient extends pHost{
                 getAccountHistory(clientId);
                 return true;
             }
-            else if (option == 5) {
+            else if (option == 5){
+                getAccountBalance();
+                return true;
+            }
+            else if (option == 6) {
                 closeAccount();
                 return false;
             }
@@ -51,6 +56,13 @@ public class pClient extends pHost{
     public void getAccountHistory(int clientId){
         String res = controller.getTransactionHistory(clientId);
         System.out.println(res);
+    }
+    public void getAccountBalance(){
+        //System.out.println("Balance");
+        //
+        //
+        //
+
     }
     protected boolean confirmation(){
         System.out.println("Please enter the password:");

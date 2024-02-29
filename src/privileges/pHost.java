@@ -1,5 +1,6 @@
 package privileges;
 
+import Validator.InputValidator;
 import controllers.ClientController;
 
 import java.util.Scanner;
@@ -56,6 +57,16 @@ public class pHost implements pInterface{
     public String passwordCreation() {
         System.out.println("Please enter the new password:");
         String password = sc.next();
+        while(!InputValidator.isValidPassword(password)){
+            System.out.println("Not appropriate password\n" +
+                    "Password requirements:\n" +
+                    "1)size is [8-20]\n" +
+                    "2)at least 1 uppercase letter\n" +
+                    "3)at least 1 lowercase letter\n" +
+                    "4)at least 1 digit\n" +
+                    "5)at least 1 special character");
+            password = sc.next();
+        }
         System.out.println("Repeat the password:");
         String repeatedPassword = sc.next();
         while (!password.equals(repeatedPassword)) {

@@ -20,7 +20,7 @@ public class PostgresDB implements IDB {
             return null;
         }
         catch (Exception e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
             return null;
         }
     }

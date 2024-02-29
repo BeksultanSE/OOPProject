@@ -195,7 +195,6 @@ public class ClientRepository implements IClientRepository {
 
             String sql = "UPDATE clients SET password = ? WHERE login = ?";
             PreparedStatement st = con.prepareStatement(sql);
-
             st.setString(1, newPassword);
             st.setString(2, login);
             st.executeUpdate();
