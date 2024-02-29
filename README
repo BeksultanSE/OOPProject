@@ -1,5 +1,5 @@
 Do not forget to change password of the database!
-create tables 'clients' and 'bank_accounts'
+create tables 'clients' and 'transaction_history'
 
 CREATE TABLE transaction_history (
     id SERIAL PRIMARY KEY,
