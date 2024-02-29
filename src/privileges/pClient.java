@@ -58,11 +58,8 @@ public class pClient extends pHost{
         System.out.println(res);
     }
     public void getAccountBalance(){
-        //System.out.println("Balance");
-        //
-        //
-        //
-
+        String res = controller.getClientBalance(login);
+        System.out.println(res);
     }
     protected boolean confirmation(){
         System.out.println("Please enter the password:");

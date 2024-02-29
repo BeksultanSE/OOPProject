@@ -28,11 +28,12 @@ public class ClientRepository implements IClientRepository {
             st.executeUpdate();
             Client createdClient = getClientByLogin(client.getLogin());
             Transaction transactionHistory = new Transaction(createdClient.getId(), "Initiation", createdClient.getBalance());
-            addTransaction(con, transactionHistory);
+            addTransaction(db.getConnection(), transactionHistory);
+
             return true;
         }
         catch (Exception e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
             return false;
         }
         finally {
@@ -243,13 +244,18 @@ public class ClientRepository implements IClientRepository {
     }
     public void addTransaction(Connection con, Transaction transactionHistory) throws SQLException {
         String sql = "INSERT INTO transaction_history (client_id, transaction_type, amount, transaction_date) VALUES (?, ?, ?, ?)";
-        PreparedStatement statement = con.prepareStatement(sql);
-        statement.setInt(1, transactionHistory.getClientId());
-        statement.setString(2, transactionHistory.getTransactionType());
-        statement.setInt(3, transactionHistory.getAmount());
-        statement.setTimestamp(4, transactionHistory.getTransactionDate());
-        statement.executeUpdate();
+        try (PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setInt(1, transactionHistory.getClientId());
+            statement.setString(2, transactionHistory.getTransactionType());
+            statement.setInt(3, transactionHistory.getAmount());
+            statement.setTimestamp(4, transactionHistory.getTransactionDate());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error adding transaction: " + e.getMessage());
+            throw e;
+        }
     }
+
 
     @Override
     public List<Transaction> getAllTransactions(int clientId) {

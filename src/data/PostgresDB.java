@@ -1,28 +1,40 @@
 package data;
 
 import data.interfaces.IDB;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-import java.sql.*;
 public class PostgresDB implements IDB {
-    @Override
-    public Connection getConnection() throws SQLException, ClassNotFoundException {
-        String connectionURL = "jdbc:postgresql://localhost:5432/simpledb";
-        try {
+    private static final String connectionURL = "jdbc:postgresql://localhost:5432/simpledb";
+    private static final String user = "postgres";
+    private static final String password = "Beksss06";
+    private static PostgresDB instance = null;
+    private static Connection singleInstance = null;
 
-            Class.forName("org.postgresql.Driver");
-
-            Connection con = DriverManager.getConnection(connectionURL, "postgres", "Beksss06");
-
-            return con;
-        }
-        catch (SQLException e){
-            System.out.println("Some SQL error: " + e);
-            return null;
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
+    private PostgresDB() {
     }
 
+    public static synchronized PostgresDB getInstance() {
+        if (instance == null) {
+            instance = new PostgresDB();
+        }
+        return instance;
+    }
+    @Override
+    public Connection getConnection() throws SQLException, ClassNotFoundException {
+        if (singleInstance == null || singleInstance.isClosed()) {
+            try {
+                Class.forName("org.postgresql.Driver");
+                singleInstance = DriverManager.getConnection(connectionURL, user, password);
+            } catch (SQLException e) {
+                System.out.println("Database connection failure: " + e.getMessage());
+                return null;
+            } catch (ClassNotFoundException e) {
+                System.out.println("JDBC Driver not found: " + e.getMessage());
+                return null;
+            }
+        }
+        return singleInstance;
+    }
 }

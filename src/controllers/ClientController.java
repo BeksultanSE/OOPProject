@@ -34,6 +34,10 @@ public class ClientController {
         Client client = repo.getClientByLogin(login);
         return client.getId();
     }
+    public String getClientBalance(String login){
+        Client client = repo.getClientByLogin(login);
+        return "Your current balance: " + client.getBalance();
+    }
     public String getAllClients(){
         List<Client> clients = repo.getAllClients();
         StringBuilder response = new StringBuilder();
