@@ -11,7 +11,7 @@ public class PostgresDB implements IDB {
 
             Class.forName("org.postgresql.Driver");
 
-            Connection con = DriverManager.getConnection(connectionURL, "postgres", "0000");
+            Connection con = DriverManager.getConnection(connectionURL, "postgres", "Beksss06");
 
             return con;
         }
