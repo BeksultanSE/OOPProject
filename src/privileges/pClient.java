@@ -1,7 +1,6 @@
 package privileges;
 
 import controllers.ClientController;
-import entities.Client;
 
 import java.util.Scanner;
 
@@ -25,8 +24,9 @@ public class pClient extends pHost{
             System.out.println("3. Change the password");
             System.out.println("4. Account history");
             System.out.println("5. Get balance");
-            System.out.println("6. Close my account");
-            System.out.println("7. Back");
+            System.out.println("6. Get all withdrawals/deposits");
+            System.out.println("9. Close my account");
+            System.out.println("0. Back");
             int option = sc.nextInt();
             if (option == 1) {
                 makeDeposit();
@@ -46,7 +46,12 @@ public class pClient extends pHost{
                 getAccountBalance();
                 return true;
             }
-            else if (option == 6) {
+            else if(option == 6){
+                String type = sc.next();
+                getAccountHistoryByType(clientId, type);
+                return true;
+            }
+            else if (option == 9) {
                 closeAccount();
                 return false;
             }
@@ -57,6 +62,27 @@ public class pClient extends pHost{
         String res = controller.getTransactionHistory(clientId);
         System.out.println(res);
     }
+
+
+    public void getAccountHistoryByType(int clientId, String type) {
+        String transactionHistory = controller.getTransactionHistory(clientId);
+        String[] res = transactionHistory.split("\n"); // Correctly split the string into an array
+
+        boolean check = false;
+        for (String transaction : res) {
+
+            if (transaction.contains(type)) {
+                System.out.println(transaction);
+                check = true;
+            }
+        }
+
+        if (!check) {
+            System.out.println("No transactions found of type: " + type);
+        }
+    }
+
+
     public void getAccountBalance(){
         String res = controller.getClientBalance(login);
         System.out.println(res);

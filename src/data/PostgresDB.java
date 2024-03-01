@@ -5,7 +5,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class PostgresDB implements IDB {
+public class
+PostgresDB implements IDB {
     private static final String connectionURL = "jdbc:postgresql://localhost:5432/simpledb";
     private static final String user = "postgres";
     private static final String password = "Beksss06";
