@@ -29,10 +29,14 @@ public class MyApplication {
                 else if(role == 2){
                     System.out.println("Enter the login:");
                     String login = sc.next();
+                    if (!controller.loginExists(login)){
+                        System.out.println("Account by this login does not exist!");
+                        continue;
+                    }
                     roleInterface = new pClient(controller, sc, login);
                 }
                 else if(role == 3){
-                    System.out.println("Enter the secret code:");
+                        System.out.println("Enter the secret code:");
                     String secretCode = sc.next();
                     if(secretCode.equals("adminadmin")){
                         roleInterface = new pAdmin(controller, sc);
